@@ -1,42 +1,51 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Runtime.InteropServices;
 
 public class QueueAPI
 {
-    public delegate void StringCallbackDelegate( string s );
-    public delegate void UnityCommandCallback( string command, string data );
-    private static GameObject CallbackObject;
 
+#if UNITY_WEBGL
+    [DllImport("__Internal")]
+#else
     [DllImport("QueueLib")]
-    private static extern void RegisterLogger(StringCallbackDelegate callback);
-
-    [DllImport("QueueLib")]
-    private static extern void ConnectCallback(UnityCommandCallback callback);
-
-    [DllImport("QueueLib")]
-    private static extern double ExecMM1(int exponent, double interArrivalMean, double serviceRateMean, int servers,
+#endif
+    private static extern double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers,
         bool listQueue);
+
+#if UNITY_WEBGL
+    [DllImport("__Internal")]
+#else
+    [DllImport("QueueLib")]
+#endif
+    private static extern void Hello();
+
+    #if UNITY_WEBGL
+
+    [DllImport("__Internal")]
+#else
+        [DllImport("QueueLib")]
+    #endif
+    private static extern void Log(string str);
+
 
     public static void InitAPI(GameObject callbackObject)
     {
-        CallbackObject = callbackObject;
-        RegisterLogger(Logger);
-        ConnectCallback(ReceiveCallback);
+#if !UNITY_EDITOR
+        Application.logMessageReceived += ApplicationOnLogMessageReceived;
+#endif
+
+        Console.Log("API is Ready.");
     }
 
-    public static double RunMM1(int exponent, double interArrivalMean, double serviceRateMean, int servers = 1,
+    private static void ApplicationOnLogMessageReceived(string logString, string stackTrace, LogType type)
+    {
+        Console.Log(logString);
+    }
+
+    public static double RunMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers = 1,
         bool listQueue = false)
     {
         return ExecMM1(exponent, interArrivalMean, serviceRateMean, servers, listQueue);
-    }
-
-    private static void ReceiveCallback(string command, string data)
-    {
-        CallbackObject.SendMessage(command, data);
-    }
-
-    static void Logger(string msg)
-    {
-        CallbackObject.SendMessage("Log", msg);
     }
 }
