@@ -22,4 +22,4 @@ file(GLOB MY_PUBLIC_HEADERS
 
 file(COPY ${MY_PUBLIC_HEADERS} DESTINATION "${PROJECT_SOURCE_DIR}/../Unity/Queues/Assets/Plugins/WebGL")
 
-add_library(QueueLib MODULE ${SOURCE_FILES})
+#add_library(QueueLib MODULE ${SOURCE_FILES})

@@ -1,31 +1,37 @@
 ﻿using System;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using Random = UnityEngine.Random;
 
 public class QueueAPI
 {
 
-#if UNITY_WEBGL
+#if UNITY_EDITOR
+
+    private static double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers,
+        bool listQueue)
+    {
+        return interArrivalMean/serviceRateMean < 0.9f ? 0 : Random.Range(interArrivalMean/100f, serviceRateMean/100f);
+    }
+#elif UNITY_WEBGL
     [DllImport("__Internal")]
-#else
-    [DllImport("QueueLib")]
-#endif
     private static extern double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers,
         bool listQueue);
+#endif
 
-#if UNITY_WEBGL
+
+#if UNITY_EDITOR
+
+#elif UNITY_WEBGL
     [DllImport("__Internal")]
-#else
-    [DllImport("QueueLib")]
 #endif
     private static extern void Hello();
 
-    #if UNITY_WEBGL
+#if UNITY_EDITOR
 
+#elif UNITY_WEBGL
     [DllImport("__Internal")]
-#else
-        [DllImport("QueueLib")]
-    #endif
+#endif
     private static extern void Log(string str);
 
 

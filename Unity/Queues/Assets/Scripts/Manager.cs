@@ -48,18 +48,22 @@ public class Manager : MonoBehaviour
 
     public void RunTest()
     {
+        Graph.Instance.Clear();
         TryParseValues();
 
-        for (int i = minPot; i < Mathf.Min(7, minPot + plusCases); i++)
+        for (int i = minPot; i <= Mathf.Min(7, minPot + plusCases); i++)
         {
             RequestQueue(i);
         }
+
+        Graph.Instance.Plot();
     }
 
     void RequestQueue(int pot)
     {
         Console.Log("Requesting for 10^" + pot);
         double val = QueueAPI.RunMM1(pot, interArrivalMean, serviceRateMean, servers, listQueue);
+        Graph.Instance.AddPoint("10^" + pot, (float) val);
         Console.Log("10^" + pot + ": " + val);
     }
 

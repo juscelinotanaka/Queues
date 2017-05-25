@@ -26,6 +26,10 @@ double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int 
     TimedQueue queue;
     ServerList server(servers);
 
+    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+
+    mt.init_genrand(seed1);
+
     int sampleSize = pow(10, exponent);
 
     double interArrivalTime;
