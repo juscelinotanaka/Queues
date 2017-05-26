@@ -55,20 +55,23 @@ public class Manager : MonoBehaviour
 
         for (int i = minPot; i <= Mathf.Min(7, minPot + plusCases); i++)
         {
-            Graph.Instance.AddPoint("10^" + i, (float) RequestQueue(i));
+            Console.Log("Requesting for 10^" + i);
+            double meanAvg = RequestQueue(i);
+            Graph.Instance.AddPoint("10^" + i, (float) meanAvg);
+            Console.Log("AVG for 10^" + i + ": " + meanAvg);
         }
 
-        float avg = ro * (1 / serviceRateMean / (1 - ro));
+        float expectedAvg = ro * (1 / serviceRateMean / (1 - ro));
 
-        Console.Log("Expected AVG for ro = " + ro + " (" + (ro * 100f).ToString("F1") + "%): " + avg);
+        Console.Log("Expected AVG for ro = " + ro + " (" + (ro * 100f).ToString("F1") + "%): " + expectedAvg);
         
-        Graph.Instance.SetAvg(avg);
+        Graph.Instance.SetAvg(expectedAvg);
         Graph.Instance.Plot();
     }
 
     double RequestQueue(int pot)
     {
-        Console.Log("Requesting for 10^" + pot);
+        
         return QueueAPI.RunMM1(pot, interArrivalMean, serviceRateMean, servers, listQueue);
     }
 
