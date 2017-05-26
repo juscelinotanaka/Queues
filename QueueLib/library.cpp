@@ -1,6 +1,6 @@
 #include "library.h"
 #include "TimedQueue.h"
-#include "ServerList.h"
+//#include "ServerList.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int 
     Log("starting");
 
     TimedQueue queue;
-    ServerList server(servers);
+//    ServerList server(servers);
 
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 
@@ -53,18 +53,18 @@ double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int 
         queue.AddElement(i, arrivalTime, serviceTime);
     }
 
-    Log("Running queue on servers.");
-
-    server.RunQueue(&queue);
+//    Log("Running queue on servers.");
+//
+//    server.RunQueue(&queue);
 
     Log("Calculating queue times.");
 
     queue.ProcessQueue();
 
-    if (listQueue) {
-        Log("Listing queue:");
-        queue.ListQueue();
-    }
+//    if (listQueue) {
+//        Log("Listing queue:");
+//        queue.ListQueue();
+//    }
 
     return queue.WaitingAverage();
 }

@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 
+
 #ifndef QUEUES_TIMEDQUEUE_H
 #define QUEUES_TIMEDQUEUE_H
 
@@ -22,7 +23,24 @@ public:
     double totalTime;
 
     void SetStartTime(double startTime);
+};
 
+class Server {
+public:
+    int id;
+    double nextAvailableTime;
+
+    Server(int i) {
+        this->id = i;
+        this->nextAvailableTime = 0;
+    }
+
+    Server() {
+        this->id = 0;
+        this->nextAvailableTime = 0;
+    }
+
+    int totalExecuted;
 };
 
 class TimedQueue{
@@ -32,18 +50,15 @@ public:
 
     void AddElement(int id, float arrivalTime, float operationDuration);
     void ProcessQueue();
-
-    Element &operator[] (int index);
-    Element operator[] (int index) const;
-
     double Size();
     double WaitingAverage();
-    void ListQueue();
+    Server s;
 
 private:
-    vector<Element> element;
+//    vector<Element> element;
     double waitAvg;
     double totalWaitTime;
+    int totalElements;
 };
 
 #endif //QUEUES_TIMEDQUEUE_H

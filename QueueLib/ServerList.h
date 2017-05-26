@@ -5,28 +5,5 @@
 #ifndef QUEUELIB_SERVERLIST_H
 #define QUEUELIB_SERVERLIST_H
 
-#include "TimedQueue.h"
-
-class Server {
-public:
-    int id;
-    double nextAvailableTime;
-
-    Server(int i) { this->id = i; }
-
-    int totalExecuted;
-};
-
-class ServerList {
-public:
-    ServerList(int totalServers);
-    void RunQueue(TimedQueue * queue);
-    Server *GetFirstAvailable(double arrivalTime);
-    Server *GetLessTired();
-
-private:
-    vector<Server> servers;
-};
-
 
 #endif //QUEUELIB_SERVERLIST_H
