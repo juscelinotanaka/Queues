@@ -7,7 +7,6 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build/")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/../Unity/Queues/Assets/Plugins/")
 
 set(SOURCE_FILES library.cpp library.h TimedQueue.cpp TimedQueue.h mt.cpp mt.h ServerList.cpp ServerList.h)
-
 #add_library(QueueLib SHARED ${SOURCE_FILES})
 #
 #set_target_properties(QueueLib
@@ -22,3 +21,5 @@ file(GLOB MY_PUBLIC_HEADERS
         )
 
 file(COPY ${MY_PUBLIC_HEADERS} DESTINATION "${PROJECT_SOURCE_DIR}/../Unity/Queues/Assets/Plugins/WebGL")
+
+#add_library(QueueLib MODULE ${SOURCE_FILES})
