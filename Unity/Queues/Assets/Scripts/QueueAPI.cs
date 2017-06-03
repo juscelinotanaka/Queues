@@ -7,12 +7,6 @@ public class QueueAPI
 {
 
 #if UNITY_EDITOR
-    
-    [DllImport("QueueLib")]
-    private static extern double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers,
-        bool listQueue);
-    
-#elif UNITY_EDITOR_OSX
 
     private static double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int servers,
         bool listQueue)
