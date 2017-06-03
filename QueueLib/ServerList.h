@@ -7,6 +7,7 @@
 
 #include "TimedQueue.h"
 
+// server holds unnecessary informations for this scenario.
 class Server {
 public:
     int id;
