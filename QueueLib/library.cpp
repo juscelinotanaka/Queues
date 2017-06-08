@@ -1,6 +1,7 @@
 #include "library.h"
 #include "TimedQueue.h"
 #include "ServerList.h"
+#include <ctime>
 
 using namespace std;
 
@@ -28,9 +29,18 @@ double ExecMM1(int exponent, float interArrivalMean, float serviceRateMean, int 
 
     // we need to generate a random number to make the MersenneTwister be different everytime it starts.
     // Read more about it on MersenneTwister documentation.
-    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+    time_t timer;
+    struct tm y2k = {0};
+    double seconds;
 
-    mt.init_genrand(seed1);
+    y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
+    y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+
+    time(&timer);  /* get current time; same as: timer = time(NULL)  */
+
+    seconds = difftime(timer,mktime(&y2k));
+
+    mt.init_genrand(seconds);
 
     int sampleSize = pow(10, exponent);
 
